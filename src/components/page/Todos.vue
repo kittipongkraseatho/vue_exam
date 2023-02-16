@@ -25,6 +25,8 @@
 </template>
 
 <script>
+// import { mapState, mapActions } from 'vuex'
+import { mapState } from "vuex";
 import ListCard from "../baseTodo/ListCard";
 import FormAddTodo from "../baseTodo/FormAddTodo";
 
@@ -33,30 +35,15 @@ export default {
     ListCard,
     FormAddTodo,
   },
-  data() {
-    return {
-      resLists: [
-        {
-          id: 1,
-          title: "todo1",
-          description: "todo1",
-          completed: false,
-        },
-        {
-          id: 2,
-          title: "todo2",
-          description: "todo2",
-          completed: true,
-        },
-      ],
-      todoListTodo: [],
-      todoListSuccess: [],
-    };
-  },
+
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
     },
+    ...mapState({
+      todoListSuccess: (state) => state.todo.todoListSuccess,
+      todoListTodo: (state) => state.todo.todoListTodo,
+    }),
   },
   created() {
     if (!this.loggedIn) {
@@ -64,27 +51,16 @@ export default {
     }
   },
   methods: {
-    itemClicked(item) {
-      console.log(item);
-    },
-    filtersCheckStatus() {
-      const lists = this.resLists;
-      // NOTE:  สูตรนี้วิ่ง loop 1 รอบ
-      lists.map((list) => {
-        if (list.completed) {
-          this.todoListSuccess.push(list);
-        } else {
-          this.todoListTodo.push(list);
-        }
-      });
-
-      // NOTE:  สูตรนี้วิ่ง loop 2 รอบ
-      //   this.todoListSuccess = lists.filter((list) => list.completed);
-      //   this.todoListTodo = lists.filter((list) => !list.completed);
+    async itemClicked(item, nextStatus) {
+      if (nextStatus === "Del") {
+        this.$store.dispatch("todo/deleteTodo", { item, nextStatus });
+      } else {
+        await this.$store.dispatch("todo/updateTodo", { item, nextStatus });
+      }
     },
   },
   beforeMount() {
-    this.filtersCheckStatus();
+    this.$store.dispatch("todo/getAllTodos");
   },
 };
 </script>

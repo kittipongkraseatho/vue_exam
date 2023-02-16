@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://candidate.neversitup.com/todo/";
+const API_URL = process.env.VUE_APP_SERVICE_URL;
 
 class AuthService {
   login(user) {

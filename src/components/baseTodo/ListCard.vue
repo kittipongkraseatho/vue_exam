@@ -13,28 +13,35 @@
       <div
         v-for="item in lists"
         :key="item.id"
-        @click="$emit('itemClicked', item)"
         class="list-group-item list-group-item-action"
       >
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{ item.title }}</h5>
-          <!-- <small class="text-muted">{{ item.completed }}</small> -->
-        </div>
-        <div class="d-flex w-100 justify-content-between">
-          <p class="mb-1">{{ item.description }}</p>
         </div>
 
         <button
-          v-if="!item.completed"
+          v-if="item.description == 'TODO'"
           type="button"
           class="btn-sm btn-warning p-2"
+          @click="$emit('itemClicked', item, 'Success')"
         >
           wait
         </button>
-        <button v-else type="button" class="btn-sm btn-success p-2">
+        <button
+          v-else
+          type="button"
+          class="btn-sm btn-success p-2"
+          @click="$emit('itemClicked', item, 'TODO')"
+        >
           success
         </button>
-        <button type="button" class="btn-sm btn-danger p-2">del</button>
+        <button
+          type="button"
+          class="btn-sm btn-danger p-2"
+          @click="$emit('itemClicked', item, 'Del')"
+        >
+          del
+        </button>
       </div>
     </div>
   </div>

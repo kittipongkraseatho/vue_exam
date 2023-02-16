@@ -1,11 +1,11 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 
-const API_URL = "https://candidate.neversitup.com/todo/";
+const API_URL = process.env.VUE_APP_SERVICE_URL;
 
 class TodoService {
   getAllTodo() {
-    return axios.get(API_URL + "all", { headers: authHeader() });
+    return axios.get(API_URL + "todos/", { headers: authHeader() });
   }
 
   getTodoByID(id) {
@@ -13,15 +13,13 @@ class TodoService {
   }
 
   createTodo(result) {
-    return axios.post(API_URL + "todos", { headers: authHeader() }, result);
+    return axios.post(API_URL + "todos/", result, { headers: authHeader() });
   }
 
   updateTodo(id, result) {
-    return axios.put(
-      API_URL + "todos/" + id,
-      { headers: authHeader() },
-      result
-    );
+    return axios.put(API_URL + "todos/" + id, result, {
+      headers: authHeader(),
+    });
   }
 
   deleteTodo(id) {

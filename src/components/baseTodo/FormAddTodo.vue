@@ -7,12 +7,6 @@
         <ErrorMessage name="title" class="error-feedback" />
       </div>
       <div class="form-group">
-        <label for="description">Description</label>
-        <Field name="description" type="text" class="form-control" />
-        <ErrorMessage name="description" class="error-feedback" />
-      </div>
-
-      <div class="form-group">
         <button class="btn btn-primary btn-block" :disabled="loading">
           <span
             v-show="loading"
@@ -47,7 +41,6 @@ export default {
   data() {
     const schema = yup.object().shape({
       title: yup.string().required("Title is required!"),
-      description: yup.string().required("Description is required!"),
     });
 
     return {
@@ -59,22 +52,21 @@ export default {
   methods: {
     handleAdd(user) {
       this.loading = true;
-      console.log(user);
 
-      //   this.$store.dispatch("auth/login", user).then(
-      //     () => {
-      //       this.$router.push("/todos");
-      //     },
-      //     (error) => {
-      //       this.loading = false;
-      //       this.message =
-      //         (error.response &&
-      //           error.response.data &&
-      //           error.response.data.message) ||
-      //         error.message ||
-      //         error.toString();
-      //     }
-      //   );
+      this.$store.dispatch("todo/addTodo", user).then(
+        () => {
+          this.loading = false;
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
     },
   },
 };
