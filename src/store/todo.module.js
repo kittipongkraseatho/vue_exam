@@ -6,7 +6,6 @@ export const todo = {
     todoListSuccess: [],
     todoListTodo: [],
     indexTodo: -1,
-    arrayIndexStatus: "",
   },
   actions: {
     async getAllTodos({ commit }) {
@@ -41,12 +40,10 @@ export const todo = {
   mutations: {
     getIndexTodo(state, id, nextStatus) {
       if (nextStatus === "TODO") {
-        state.arrayIndexStatus = "Success";
         state.indexTodo = state.todoListSuccess.indexOf(
           state.todoListSuccess.find((list) => list._id === id)
         );
       } else {
-        state.arrayIndexStatus = "TODO";
         state.indexTodo = state.todoListTodo.indexOf(
           state.todoListTodo.find((list) => list._id === id)
         );
