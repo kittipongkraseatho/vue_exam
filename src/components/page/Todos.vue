@@ -6,14 +6,14 @@
       </div>
     </div>
     <div class="row justify-content-center">
-      <div class="col-4">
+      <div class="col-md-4 py-2">
         <ListCard
           header="TODO"
           :lists="todoListTodo"
           @item-clicked="itemClicked"
         />
       </div>
-      <div class="col-4">
+      <div class="col-md-4 py-2">
         <ListCard
           header="SUCCESS"
           :lists="todoListSuccess"
